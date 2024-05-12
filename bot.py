@@ -33,7 +33,7 @@ client.connect(hostname=host, username=username, password=password, port=port)
 
 log_client = paramiko.SSHClient()
 log_client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-log_client.connect(hostname=DB_HOST, username='kykymana', password=123456, port=22)
+log_client.connect(hostname=DB_HOST, username='kykymana', password='123456', port=22)
 
 # Подключаем логирование
 logging.basicConfig(
@@ -171,7 +171,7 @@ def getServiceCommand(update: Update, context):
     return ConversationHandler.END
 
 def getLogsCommand(update: Update, context):
-    stdin, stdout, stderr = log_client.exec_command('cat /var/log/postgresql/postgresql.log | tail -n 10')
+    stdin, stdout, stderr = log_client.exec_command('cat /var/log/postgresql/postgresql-14-main.log | tail -n 10')
     data = stdout.read() + stderr.read()
     data = str(data).replace('\\n', '\n').replace('\\t', '\t')[2:-1]
     decoded_text = bytes(data, "utf-8").decode("unicode_escape").encode("latin1").decode("utf-8")
